@@ -17,10 +17,10 @@ services:
     depends_on:
       - postgres
     environment:
-      HOST: postgres
-      USER: dummy
-      PASSWORD: mypassword
-      DATABASE: dummy
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: dummy
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DATABASE: dummy
     ports:
       - "8080:8080"
 

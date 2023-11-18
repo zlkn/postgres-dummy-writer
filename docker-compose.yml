@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: dummy
+      POSTGRES_USER: dummy
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      HOST: postgres
+      USER: dummy
+      PASSWORD: mypassword
+      DATABASE: dummy
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

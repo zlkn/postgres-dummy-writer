@@ -7,7 +7,7 @@ import os
 DATABASE = os.getenv('POSTGRES_DATABASE', 'dummy')
 PORT = int(os.getenv('POSTGRES_PORT', 5432))
 USER = os.getenv('POSTGRES_USER', 'dummy')
-PASSWORD = os.getenv('POSTGRES_PASSWORD', 'postgres')
+PASSWORD = os.getenv('POSTGRES_PASSWORD', 'mypassowrd')
 HOST = os.getenv('POSTGRES_HOST', 'localhost')
 TABLE = os.getenv('POSTGRES_TABLE', 'data')
 SLEEP = int(os.getenv('SLEEP', 1))
@@ -46,6 +46,7 @@ def retry_insert(query: str, max_retries=5, delay=2):
             break
         else:
             time.sleep(delay)
+            print("Retrying... {retry}".format(retry=retry))
 
     return id
 

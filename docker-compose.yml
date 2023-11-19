@@ -7,22 +7,11 @@ services:
       POSTGRES_DB: dummy
       POSTGRES_USER: dummy
       POSTGRES_PASSWORD: mypassword
+    network_mode: host
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  app:
-    build: .
-    depends_on:
-      - postgres
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_USER: dummy
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DATABASE: dummy
-    ports:
-      - "8080:8080"
 
 volumes:
   postgres_data:

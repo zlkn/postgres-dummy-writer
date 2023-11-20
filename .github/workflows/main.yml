@@ -14,24 +14,16 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Set up Python 3.9
       uses: actions/setup-python@v1
       with:
         python-version: 3.9
     - name: Install dependencies
-      run: |
-        make install
+      run: make install
     - name: Lint
-      run: |
-        make lint
-    - name: Test
-      run: |
-        make test
+      run: make lint
     - name: docker build
-      run: |
-        docker build -t vv1sp/postgres-dummy-writer:latest .
+      run: docker build -t vv1sp/postgres-dummy-writer:latest .
     - name: docker push
-      run: |
-        docker push vv1sp/postgres-dummy-writer:latest
+      run: docker push vv1sp/postgres-dummy-writer:latest

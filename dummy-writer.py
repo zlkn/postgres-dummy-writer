@@ -1,20 +1,21 @@
 import time
+import os
 import psycopg2
 import loremipsum
-import os
+
 
 # Fetching environment variables
 DATABASE = os.getenv('POSTGRES_DATABASE', 'dummy')
-PORT = int(os.getenv('POSTGRES_PORT', 5432))
+PORT = int(os.getenv('POSTGRES_PORT', '5432'))
 USER = os.getenv('POSTGRES_USER', 'dummy')
 PASSWORD = os.getenv('POSTGRES_PASSWORD', 'mypassowrd')
 HOST = os.getenv('POSTGRES_HOST', 'localhost')
 TABLE = os.getenv('POSTGRES_TABLE', 'data')
-SLEEP = int(os.getenv('SLEEP', 1))
+SLEEP = int(os.getenv('SLEEP', '1'))
 
 
 def insert(query: str):
-    id = None
+    returning_id = None
     conn = None
     try:
         conn = psycopg2.connect(port=PORT, host=HOST,
@@ -24,7 +25,7 @@ def insert(query: str):
         cur = conn.cursor()
         conn.autocommit = True
         cur.execute(query)
-        id = cur.fetchone()[0]
+        returning_id = cur.fetchone()[0]
         cur.close()
 
     except (Exception, psycopg2.DatabaseError) as error:
@@ -34,21 +35,19 @@ def insert(query: str):
         if conn is not None:
             conn.close()
 
-    return id
+    return returning_id
 
 
 def retry_insert(query: str, max_retries=5, delay=2):
-    id = None
+    returning_id = None
 
     for retry in range(max_retries):
-        id = insert(query)
-        if id is not None:
-            break
-        else:
+        returning_id = insert(query)
+        if returning_id is None:
             time.sleep(delay)
             print("Retrying... {retry}".format(retry=retry))
 
-    return id
+    return returning_id
 
 
 def init():
@@ -58,7 +57,7 @@ def init():
     sql = """
         CREATE TABLE IF NOT EXISTS
             {table}  (
-                id SERIAL PRIMARY KEY,
+                returning_id SERIAL PRIMARY KEY,
                 data VARCHAR(200)
                 )
         """.format(table=TABLE)
@@ -70,7 +69,7 @@ def insert_random_string():
     sql = """
         INSERT INTO {table}(data)
         VALUES ('{sentence}')
-        RETURNING id;
+        RETURNING returning_id;
         """.format(table=TABLE, sentence=sentence)
 
     return insert(sql)

@@ -1,0 +1,8 @@
+[MASTER]
+disable=
+    C0103, # Module name "dummy-writer" doesn't conform to snake_case naming style (invalid-name)
+    W0718, # Catching too general exception Exception (broad-exception-caught)
+    C0209, # Formatting a regular string which could be an f-string (consreturning_ider-using-f-string)
+    C0114, # missing-module-docstring
+    C0115, # missing-class-docstring
+    C0116, # missing-module-docstring

@@ -13,6 +13,7 @@ HOST = os.getenv("POSTGRES_HOST", "localhost")
 TABLE = os.getenv("POSTGRES_TABLE", "data")
 SLEEP = int(os.getenv("SLEEP", "1"))
 DEBUG = os.getenv("DEBUG", "false")
+TEST = os.getenv("TEST", "false")
 
 
 def insert(
@@ -91,6 +92,7 @@ def insert_random_string():
 
 
 if __name__ == "__main__":
+    print(f"TEST: {TEST}")
     init()
     while True:
         print(insert_random_string())

@@ -18,8 +18,6 @@ TEST = os.getenv("TEST", "false")
 
 def insert(
     query: str,
-    port: int = PORT,
-    host: str = HOST,
     database: str = DATABASE,
     user: str = USER,
     password: str = PASSWORD,
@@ -32,8 +30,8 @@ def insert(
 
     try:
         conn = psycopg2.connect(
-            port=port,
-            host=host,
+            port=PORT,
+            host=HOST,
             database=database,
             user=user,
             password=password,
